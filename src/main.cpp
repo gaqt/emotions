@@ -15,7 +15,7 @@ using namespace std;
 #define MAX_HEALTH 100
 #define HEALTH_DRAIN 0.02
 #define BALL_RADIUS 15
-#define BULLET_MAXAGE 180
+#define BULLET_MAXAGE 240
 #define BULLET_SPEED 7
 #define BULLET_RADIUS 6
 #define BULLET_DAMAGE 15
