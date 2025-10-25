@@ -2,6 +2,8 @@
 
 #include <raylib.h>
 #include <raymath.h>
+#define RAYGUI_IMPLEMENTATION
+#include "../lib/raygui.h"
 #include <stdio.h>
 #include <vector>
 using namespace std;
@@ -264,24 +266,37 @@ int main(void) {
    InitWindow(WORLD_X, WORLD_Y - 35, "MEOW");
    SetTargetFPS(60);
 
+   bool restart = false;
+
    while (!WindowShouldClose()) {
+
+      if (restart) {
+         restart = false;
+         player = Player::create();
+         entity = Entity::create();
+         bullets.clear();
+         blastEffects.clear();
+      }
 
       if (player.health <= 0 && entity.health <= 0) {
          BeginDrawing();
          ClearBackground(BLACK);
          DrawText("Draw!", 200, 200, 40, PINK);
+         restart = GuiButton({200, 300, 200, 50}, "RESTART");
          EndDrawing();
          continue;
       } else if (player.health <= 0) {
          BeginDrawing();
          ClearBackground(BLACK);
          DrawText("Entity Won!", 200, 200, 40, PINK);
+         restart = GuiButton({200, 300, 200, 50}, "RESTART");
          EndDrawing();
          continue;
       } else if (entity.health <= 0) {
          BeginDrawing();
          ClearBackground(BLACK);
          DrawText("Player Won!", 200, 200, 40, PINK);
+         restart = GuiButton({200, 300, 200, 50}, "RESTART");
          EndDrawing();
          continue;
       }
