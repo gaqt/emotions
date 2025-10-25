@@ -263,7 +263,7 @@ void processCollisions() {
 
 int main(void) {
    SetWindowState(FLAG_MSAA_4X_HINT);
-   InitWindow(WORLD_X, WORLD_Y - 35, "MEOW");
+   InitWindow(WORLD_X, WORLD_Y, "MEOW");
    SetTargetFPS(60);
 
    bool restart = false;
