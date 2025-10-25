@@ -1,0 +1,15 @@
+[
+  {
+    "arguments": [
+      "/nix/store/kaj8d1zcn149m40s9h0xi0khakibiphz-gcc-wrapper-14.3.0/bin/g++",
+      "-c",
+      "-O3",
+      "-o",
+      "dist/out",
+      "main.cpp"
+    ],
+    "directory": "/home/logemi/Code/emotions",
+    "file": "/home/logemi/Code/emotions/main.cpp",
+    "output": "/home/logemi/Code/emotions/dist/out"
+  }
+]
