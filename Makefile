@@ -26,6 +26,11 @@ run:
 	@dist/out
 	@echo "Done!"
 
+format:
+	@echo "Formatting project"
+	@clang-format -i $(shell find src/** -type f)
+	@echo "Done!"
+
 buildRun: build run
 
-.PHONY: setup clean build run buildRun
+.PHONY: setup clean build run buildRun format

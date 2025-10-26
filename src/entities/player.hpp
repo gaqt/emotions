@@ -6,12 +6,12 @@
 #include <raylib.h>
 
 struct Player {
-   PhysicalObject m_pho;
-   Health m_health;
-   Timer m_shootCooldown;
+    PhysicalObject m_pho;
+    Health m_health;
+    Timer m_shootCooldown;
 
-   static Player create(Vector2 pos);
-   void tick();
-   void draw() const;
-   void drawUI() const;
+    static Player create(Vector2 pos);
+    void tick();
+    void draw() const;
+    void drawUI() const;
 };

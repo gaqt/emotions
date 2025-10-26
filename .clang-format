@@ -1,4 +1,32 @@
 BasedOnStyle: LLVM
-IndentWidth: 3
-TabWidth: 3
+IndentWidth: 4
+TabWidth: 4
 UseTab: Never
+ColumnLimit: 80
+AlignAfterOpenBracket: Align
+AlignArrayOfStructures: Left
+AlignConsecutiveShortCaseStatements:
+   Enabled: true
+   AlignCaseColons: true
+AlignEscapedNewlines: LeftWithLastLine
+AlignOperands: AlignAfterOperator
+AlignTrailingComments: Always
+AllowAllArgumentsOnNextLine: false
+AllowAllParametersOfDeclarationOnNextLine: false
+AllowShortBlocksOnASingleLine: Always
+AllowShortCaseLabelsOnASingleLine: true
+AllowShortCompoundRequirementOnASingleLine: true
+AllowShortEnumsOnASingleLine: true
+AllowShortFunctionsOnASingleLine: Inline
+AllowShortIfStatementsOnASingleLine: AllIfsAndElse
+AllowShortLambdasOnASingleLine: All
+AllowShortLoopsOnASingleLine: true
+AlwaysBreakBeforeMultilineStrings: false
+BinPackArguments: false
+BinPackParameters: false
+BreakBeforeBinaryOperators: All
+BreakBeforeTernaryOperators: true
+IncludeBlocks: Preserve
+InsertNewlineAtEOF: true
+LineEnding: LF
+MaxEmptyLinesToKeep: 2

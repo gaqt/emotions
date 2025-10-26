@@ -11,70 +11,69 @@ using namespace std;
 #include "sources.cpp"
 
 int main(void) {
-   SetWindowState(FLAG_MSAA_4X_HINT);
-   InitWindow(WORLD_X, WORLD_Y, "MEOW");
-   SetTargetFPS(60);
+    SetWindowState(FLAG_MSAA_4X_HINT);
+    InitWindow(WORLD_X, WORLD_Y, "MEOW");
+    SetTargetFPS(60);
 
-   Vector2 playerInitialPos = {WORLD_X/2.0 - 100, WORLD_Y/2.0 + 100};
-   Vector2 enemyInitialPos = {WORLD_X/2.0 + 100, WORLD_Y/2.0 - 100};
+    Vector2 playerInitialPos = {WORLD_X / 2.0 - 100, WORLD_Y / 2.0 + 100};
+    Vector2 enemyInitialPos = {WORLD_X / 2.0 + 100, WORLD_Y / 2.0 - 100};
 
-   Player player = Player::create(playerInitialPos);
-   Enemy enemy = Enemy::create(enemyInitialPos);
+    Player player = Player::create(playerInitialPos);
+    Enemy enemy = Enemy::create(enemyInitialPos);
 
-   bool restart = false;
+    bool restart = false;
 
-   while (!WindowShouldClose()) {
+    while (!WindowShouldClose()) {
 
-      if (restart) {
-         restart = false;
-         player = Player::create(playerInitialPos);
-         enemy = Enemy::create(enemyInitialPos);
-         Bullet::clearBullets();
-         BlastEffect::clearEffects();
-      }
+        if (restart) {
+            restart = false;
+            player = Player::create(playerInitialPos);
+            enemy = Enemy::create(enemyInitialPos);
+            Bullet::clearBullets();
+            BlastEffect::clearEffects();
+        }
 
-      if (player.m_health.m_points <= 0 &&
-          enemy.m_health.m_points <= 0) {
-         BeginDrawing();
-         ClearBackground(BLACK);
-         DrawText("Draw!", 200, 200, 40, PINK);
-         restart = GuiButton({200, 300, 200, 50}, "RESTART");
-         EndDrawing();
-         continue;
-      } else if (player.m_health.m_points <= 0) {
-         BeginDrawing();
-         ClearBackground(BLACK);
-         DrawText("Entity Won!", 200, 200, 40, PINK);
-         restart = GuiButton({200, 300, 200, 50}, "RESTART");
-         EndDrawing();
-         continue;
-      } else if (enemy.m_health.m_points <= 0) {
-         BeginDrawing();
-         ClearBackground(BLACK);
-         DrawText("Player Won!", 200, 200, 40, PINK);
-         restart = GuiButton({200, 300, 200, 50}, "RESTART");
-         EndDrawing();
-         continue;
-      }
+        if (player.m_health.m_points <= 0 && enemy.m_health.m_points <= 0) {
+            BeginDrawing();
+            ClearBackground(BLACK);
+            DrawText("Draw!", 200, 200, 40, PINK);
+            restart = GuiButton({200, 300, 200, 50}, "RESTART");
+            EndDrawing();
+            continue;
+        } else if (player.m_health.m_points <= 0) {
+            BeginDrawing();
+            ClearBackground(BLACK);
+            DrawText("Entity Won!", 200, 200, 40, PINK);
+            restart = GuiButton({200, 300, 200, 50}, "RESTART");
+            EndDrawing();
+            continue;
+        } else if (enemy.m_health.m_points <= 0) {
+            BeginDrawing();
+            ClearBackground(BLACK);
+            DrawText("Player Won!", 200, 200, 40, PINK);
+            restart = GuiButton({200, 300, 200, 50}, "RESTART");
+            EndDrawing();
+            continue;
+        }
 
-      player.tick();
-      enemy.tick(player);
-      BlastEffect::tickAll();
-      Bullet::tickAll(player, enemy);
+        player.tick();
+        enemy.tick(player);
+        BlastEffect::tickAll();
+        Bullet::tickAll(player, enemy);
 
-      BeginDrawing();
-      ClearBackground(BLACK);
+        BeginDrawing();
+        ClearBackground(BLACK);
 
-      player.draw();
-      enemy.draw();
-      Bullet::drawAll();
-      BlastEffect::drawAll();
-      enemy.drawUI();
-      player.drawUI();
+        player.draw();
+        enemy.draw();
+        Bullet::drawAll();
+        BlastEffect::drawAll();
+        enemy.drawUI();
+        player.drawUI();
 
-      EndDrawing();
-   }
-   CloseWindow();
+        EndDrawing();
+    }
+    CloseWindow();
 
-   return 0;
+    return 0;
 }

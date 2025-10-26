@@ -7,14 +7,14 @@
 #include <raylib.h>
 
 struct Enemy {
-   PhysicalObject m_pho;
-   Health m_health;
-   Timer m_shootCooldown;
-   Fear m_fear;
+    PhysicalObject m_pho;
+    Health m_health;
+    Timer m_shootCooldown;
+    Fear m_fear;
 
- public:
-   static Enemy create(Vector2 pos);
-   void tick(Player &p);
-   void draw() const;
-   void drawUI() const;
+  public:
+    static Enemy create(Vector2 pos);
+    void tick(Player &p);
+    void draw() const;
+    void drawUI() const;
 };
