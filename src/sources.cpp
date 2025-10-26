@@ -1,7 +1,6 @@
-#include "components/shooter.cpp"
 #include "components/health.cpp"
 #include "components/physical_object.cpp"
-#include "components/age.cpp"
+#include "components/timer.cpp"
 #include "components/fear.cpp"
 
 #include "entities/bullet.cpp"

@@ -33,22 +33,22 @@ int main(void) {
          BlastEffect::clearEffects();
       }
 
-      if (player.getHealth().getHealth() <= 0 &&
-          enemy.getHealth().getHealth() <= 0) {
+      if (player.m_health.m_points <= 0 &&
+          enemy.m_health.m_points <= 0) {
          BeginDrawing();
          ClearBackground(BLACK);
          DrawText("Draw!", 200, 200, 40, PINK);
          restart = GuiButton({200, 300, 200, 50}, "RESTART");
          EndDrawing();
          continue;
-      } else if (player.getHealth().getHealth() <= 0) {
+      } else if (player.m_health.m_points <= 0) {
          BeginDrawing();
          ClearBackground(BLACK);
          DrawText("Entity Won!", 200, 200, 40, PINK);
          restart = GuiButton({200, 300, 200, 50}, "RESTART");
          EndDrawing();
          continue;
-      } else if (enemy.getHealth().getHealth() <= 0) {
+      } else if (enemy.m_health.m_points <= 0) {
          BeginDrawing();
          ClearBackground(BLACK);
          DrawText("Player Won!", 200, 200, 40, PINK);

@@ -4,17 +4,14 @@
 #include <raymath.h>
 using namespace std;
 
-Fear Fear::create() { return Fear(M{.fear = 0}); }
+Fear Fear::create() { return {.m_points = 0}; }
 
-float Fear::getFear() const { return m.fear; }
-
-void Fear::tick(float dangerDist, float firingCooldown, Health health,
+void Fear::tick(f32 dangerDist, Timer firingCooldown, Health health,
                 Health playerHealth) {
-   float f = health.getMaxHealth() - health.getHealth();
-   f += max(0.0f, 200 - dangerDist);
-   f += firingCooldown;
-   f += playerHealth.getHealth();
-   f = Clamp(f, 0, MAX_FEAR);
 
-   m.fear = f;
+   m_points = health.m_maxPoints - health.m_points;
+   m_points += max(0.0f, 200 - dangerDist);
+   m_points += 60.0f * firingCooldown.percentage();
+   m_points += playerHealth.m_points;
+   m_points = Clamp(m_points, 0, MAX_FEAR);
 }

@@ -1,18 +1,11 @@
 #pragma once
 
 #include <raylib.h>
-#include <utility>
 
-class PhysicalObject {
-   struct M {
-      Vector2 pos;
-      Vector2 velocity;
-   } m;
-   explicit PhysicalObject(M m) : m(std::move(m)) {};
+struct PhysicalObject {
+   Vector2 m_pos;
+   Vector2 m_vel;
 
- public:
    static PhysicalObject create(Vector2 pos, Vector2 velocity);
    void tick(Vector2 accel);
-   Vector2 getPos() const;
-   Vector2 getVelocity() const;
 };

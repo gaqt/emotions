@@ -6,31 +6,32 @@
 #include <raymath.h>
 using namespace std;
 
-std::vector<Bullet> bullets;
+vector<Bullet> g_bullets;
 
 void Bullet::shoot(Vector2 source, Vector2 direction) {
-   Bullet b = Bullet(M{.pos = source + direction * (1.2 * BALL_RADIUS),
-                       .velocity = direction * BULLET_SPEED,
-                       .age = Age::create(0, BULLET_MAXAGE)});
-   bullets.push_back(b);
+   Bullet b = {.m_pos = source + direction * (1.2 * BALL_RADIUS),
+               .m_vel = direction * BULLET_SPEED,
+               .m_age = Timer::create(0, BULLET_MAXAGE)};
+   g_bullets.push_back(b);
 }
 
 bool Bullet::tick(Player &p, Enemy &e) {
-   m.pos += m.velocity;
-   m.pos.x = Wrap(m.pos.x, 0, WORLD_X);
-   m.pos.y = Wrap(m.pos.y, 0, WORLD_Y);
+   m_pos += m_vel;
+   m_pos.x = Wrap(m_pos.x, 0, WORLD_X);
+   m_pos.y = Wrap(m_pos.y, 0, WORLD_Y);
 
-   if (m.age.tick())
+   if (m_age.tick())
       return true;
 
-   if (CheckCollisionCircles(p.getPos(), BALL_RADIUS, m.pos, BULLET_RADIUS)) {
-      p.dealDamage(BULLET_DAMAGE);
-      BlastEffect::create(m.pos);
+   if (CheckCollisionCircles(p.m_pho.m_pos, BALL_RADIUS, m_pos,
+                             BULLET_RADIUS)) {
+      p.m_health.damage(BULLET_DAMAGE);
+      BlastEffect::create(m_pos);
       return true;
-   } else if (CheckCollisionCircles(e.getPos(), BALL_RADIUS, m.pos,
+   } else if (CheckCollisionCircles(e.m_pho.m_pos, BALL_RADIUS, m_pos,
                                     BULLET_RADIUS)) {
-      e.dealDamage(BULLET_DAMAGE);
-      BlastEffect::create(m.pos);
+      e.m_health.damage(BULLET_DAMAGE);
+      BlastEffect::create(m_pos);
       return true;
    }
 
@@ -38,26 +39,22 @@ bool Bullet::tick(Player &p, Enemy &e) {
 }
 
 void Bullet::tickAll(Player &p, Enemy &e) {
-   for (size_t i = 0; i < bullets.size(); i++) {
-      if (bullets[i].tick(p, e)) {
-         swap(bullets[i], bullets.back());
-         bullets.pop_back();
+   for (size_t i = 0; i < g_bullets.size(); i++) {
+      if (g_bullets[i].tick(p, e)) {
+         swap(g_bullets[i], g_bullets.back());
+         g_bullets.pop_back();
          i--;
       }
    }
 }
 
-void Bullet::draw() const { DrawCircleV(m.pos, BULLET_RADIUS, PURPLE); }
+void Bullet::draw() const { DrawCircleV(m_pos, BULLET_RADIUS, PURPLE); }
 
 void Bullet::drawAll() {
-   for (Bullet &b : bullets)
+   for (Bullet &b : g_bullets)
       b.draw();
 }
 
-void Bullet::clearBullets() { bullets.clear(); }
+void Bullet::clearBullets() { g_bullets.clear(); }
 
-const vector<Bullet> &Bullet::getBullets() { return bullets; }
-
-Vector2 Bullet::getPos() const { return m.pos; }
-
-Vector2 Bullet::getVelocity() const { return m.velocity; }
+const vector<Bullet> &Bullet::getBullets() { return g_bullets; }

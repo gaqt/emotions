@@ -8,6 +8,7 @@
       "-Wall",
       "-Wextra",
       "-Wpedantic",
+      "-Isrc",
       "-Ilib/raygui",
       "-o",
       "dist/out",

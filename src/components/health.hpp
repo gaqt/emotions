@@ -1,18 +1,13 @@
 #pragma once
 
-#include <utility>
+#include "constants.hpp"
 
-class Health {
-   struct M {
-      float health;
-      float maxHealth;
-   } m;
-   explicit Health(M m) : m(std::move(m)) {};
+struct Health {
+   f32 m_points;
+   f32 m_maxPoints;
 
-   public:
-   static Health create(float maxHealth);
-   float getHealth() const;
-   float getMaxHealth() const;
-   void dealDamage(float damage);
+   static Health create(f32 maxHealth);
+   void damage(f32 damage);
+   f32 percentage() const;
    void tick();
 };

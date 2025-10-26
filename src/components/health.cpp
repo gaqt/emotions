@@ -1,17 +1,15 @@
 #include "health.hpp"
 #include "../constants.hpp"
 
-Health Health::create(float maxHealth) {
-   return Health(M{
-       .health = maxHealth,
-       .maxHealth = maxHealth,
-   });
+Health Health::create(f32 maxHealth) {
+   return {
+       .m_points = maxHealth,
+       .m_maxPoints = maxHealth,
+   };
 }
 
-float Health::getHealth() const { return m.health; }
+void Health::damage(f32 damage) { m_points -= damage; }
 
-float Health::getMaxHealth() const { return m.maxHealth; }
+f32 Health::percentage() const { return m_points / m_maxPoints; }
 
-void Health::dealDamage(float damage) { m.health -= damage; }
-
-void Health::tick() { m.health -= HEALTH_DRAIN; }
+void Health::tick() { m_points -= HEALTH_DRAIN; }

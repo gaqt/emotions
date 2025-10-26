@@ -1,18 +1,13 @@
 #pragma once
 
+#include "components/timer.hpp"
+#include "constants.hpp"
 #include "health.hpp"
-#include <raylib.h>
-#include <utility>
 
-class Fear {
-   struct M {
-      float fear;
-   } m;
-   explicit Fear(M m) : m(std::move(m)) {};
+struct Fear {
+   f32 m_points;
 
- public:
    static Fear create();
-   float getFear() const;
-   void tick(float dangerDist, float firingCooldown, Health health,
+   void tick(f32 dangerDist, Timer firingCooldown, Health health,
              Health playerHealth);
 };
