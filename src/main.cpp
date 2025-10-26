@@ -1,9 +1,8 @@
 // code is shit
 
+#include <raygui.h>
 #include <raylib.h>
 #include <raymath.h>
-#define RAYGUI_IMPLEMENTATION
-#include "../lib/raygui.h"
 #include <stdio.h>
 #include <vector>
 using namespace std;
@@ -153,6 +152,7 @@ Player Player::create() {
        .pos = {WORLD_X / 2.0 - 100, WORLD_Y / 2.0 + 100},
        .velocity = {0, 0},
        .health = MAX_HEALTH,
+       .firingCooldown = 0,
    };
 }
 
@@ -180,7 +180,8 @@ float Entity::fear(Vector2 dangerPos) {
    return f;
 }
 
-void Entity::processMovement(float crrFear, Vector2 dangerPos, Vector2 playerPos) {
+void Entity::processMovement(float crrFear, Vector2 dangerPos,
+                             Vector2 playerPos) {
    Vector2 accel = {0, 0};
    accel += Vector2Normalize(playerPos - pos) * (MAX_FEAR - crrFear);
    accel += Vector2Normalize(pos - dangerPos) * crrFear;
@@ -206,7 +207,7 @@ void Entity::runBrain() {
    float playerDist = Vector2DistanceSqr(player.pos, pos);
    for (float dx = -WORLD_X; dx <= WORLD_X + 1; dx += WORLD_X) {
       for (float dy = -WORLD_Y; dy <= WORLD_Y + 1; dy += WORLD_Y) {
-         Vector2 newPos = player.pos + (Vector2){dx, dy};
+         Vector2 newPos = player.pos + Vector2 { dx, dy };
          float dist = Vector2DistanceSqr(pos, newPos);
          if (dist < playerDist) {
             playerDist = dist;
@@ -219,7 +220,7 @@ void Entity::runBrain() {
    for (auto &b : bullets) {
       for (float dx = -WORLD_X; dx <= WORLD_X + 1; dx += WORLD_X) {
          for (float dy = -WORLD_Y; dy <= WORLD_Y + 1; dy += WORLD_Y) {
-            Vector2 newPos = b.pos + (Vector2){dx, dy};
+            Vector2 newPos = b.pos + Vector2{dx, dy};
             float dist = Vector2DistanceSqr(pos, newPos);
             if (dist < dangerDist) {
                dangerDist = dist;
@@ -239,6 +240,7 @@ Entity Entity::create() {
        .pos = {WORLD_X / 2.0 + 100, WORLD_Y / 2.0 - 100},
        .velocity = {0, 0},
        .health = MAX_HEALTH,
+       .firingCooldown = 0,
    };
 }
 
@@ -323,7 +325,7 @@ int main(void) {
       DrawRectangleLinesEx({WORLD_X - 310, 10, 300, 40}, 2, RED);
       DrawRectangle(WORLD_X - 305, 15, entity.health / (float)MAX_HEALTH * 290,
                     30, PINK);
-      DrawCircleSector(GetMousePosition() + (Vector2){20, 20}, 15, 0,
+      DrawCircleSector(GetMousePosition() + Vector2{20, 20}, 15, 0,
                        360.0 * player.firingCooldown / FIRING_COOLDOWN, 10,
                        GRAY);
       EndDrawing();
