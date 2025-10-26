@@ -3,6 +3,7 @@
 #include "entities/bullet.hpp"
 #include "entities/enemy.hpp"
 #include "entities/player.hpp"
+#include <ctime>
 #include <raygui.h>
 #include <raylib.h>
 #include <raymath.h>
@@ -11,9 +12,11 @@ using namespace std;
 #include "sources.cpp"
 
 int main(void) {
-    SetWindowState(FLAG_MSAA_4X_HINT);
+    SetConfigFlags(FLAG_MSAA_4X_HINT);
     InitWindow(WORLD_X, WORLD_Y, "MEOW");
     SetTargetFPS(60);
+
+    srand(time(NULL));
 
     Vector2 playerInitialPos = {WORLD_X / 2.0 - 100, WORLD_Y / 2.0 + 100};
     Vector2 enemyInitialPos = {WORLD_X / 2.0 + 100, WORLD_Y / 2.0 - 100};
@@ -56,10 +59,10 @@ int main(void) {
             continue;
         }
 
-        player.tick();
-        enemy.tick(player);
         BlastEffect::tickAll();
         Bullet::tickAll(player, enemy);
+        player.tick();
+        enemy.tick(player);
 
         BeginDrawing();
         ClearBackground(BLACK);
@@ -70,6 +73,8 @@ int main(void) {
         BlastEffect::drawAll();
         enemy.drawUI();
         player.drawUI();
+
+        DrawFPS(20, 20);
 
         EndDrawing();
     }

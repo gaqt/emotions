@@ -1,6 +1,7 @@
 #include "enemy.hpp"
 #include "../constants.hpp"
 #include "bullet.hpp"
+#include <cstdio>
 #include <raymath.h>
 
 Enemy Enemy::create(Vector2 pos) {
@@ -44,12 +45,15 @@ void Enemy::tick(Player &p) {
 
     m_health.tick();
     m_shootCooldown.tick();
-    m_fear.tick(sqrt(dangerDist), m_shootCooldown, m_health, p.m_health);
+    m_fear.tick(sqrt(dangerDist), m_shootCooldown, m_health, p);
 
     Vector2 accel = {0, 0};
     accel += Vector2Normalize(p.m_pho.m_pos - m_pho.m_pos)
-           * (MAX_FEAR - m_fear.m_points);
-    accel += Vector2Normalize(m_pho.m_pos - dangerPos) * m_fear.m_points;
+           * (1.0 - m_fear.percentage());
+    accel += Vector2Normalize(m_pho.m_pos - dangerPos) * m_fear.percentage();
+    accel += Vector2Normalize(
+                 {(f32)(rand() % 100) - 50, (f32)(rand() % 100) - 50})
+           * .05f;
     accel = Vector2Normalize(accel) * ACCEL;
 
     m_pho.tick(accel);

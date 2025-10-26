@@ -13,7 +13,7 @@
 #define BULLET_SPEED 7
 #define BULLET_RADIUS 6
 #define BULLET_DAMAGE 15
-#define MAX_FEAR 300
+#define MAX_FEAR 600
 #define FIRING_COOLDOWN 60
 #define BLAST_MAXAGE 10
 #define BLAST_GROWTH 4
