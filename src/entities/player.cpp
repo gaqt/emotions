@@ -1,6 +1,7 @@
 #include "player.hpp"
 #include "../constants.hpp"
 #include "bullet.hpp"
+#include <raylib.h>
 #include <raymath.h>
 
 Player Player::create(Vector2 pos) {
@@ -26,20 +27,23 @@ void Player::tick() {
     m_shootCooldown.tick();
     if (!m_shootCooldown.done()) return;
 
-    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) {
-        Vector2 direction = Vector2Normalize(GetMousePosition() - m_pho.m_pos);
+    if (IsMouseButtonDown(MOUSE_LEFT_BUTTON)) {
+        Vector2 direction
+            = Vector2Normalize(GetMousePosition() - PADDING_V - m_pho.m_pos);
         Bullet::shoot(m_pho.m_pos, direction);
         m_shootCooldown.reset();
     }
 }
 
 void Player::draw() const {
-    DrawCircleV(m_pho.m_pos, BALL_RADIUS, BLUE);
+    DrawCircleV(PADDING_V + m_pho.m_pos, BALL_RADIUS, BLUE);
 }
 
 void Player::drawUI() const {
-    DrawRectangleLinesEx({10, WORLD_Y - 50, 300, 40}, 2, WHITE);
-    DrawRectangle(15, WORLD_Y - 45, m_health.percentage() * 290, 30, GREEN);
+    DrawRectangleLinesEx(PADDED_REC(10, WORLD_Y - 50, 300, 40), 2, WHITE);
+    DrawRectangleRec(
+        PADDED_REC(15, WORLD_Y - 45, m_health.percentage() * 290, 30),
+        GREEN);
     DrawCircleSector(GetMousePosition() + Vector2{20, 20},
                      15,
                      0,

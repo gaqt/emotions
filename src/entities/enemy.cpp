@@ -48,7 +48,7 @@ void Enemy::tick(Player &p) {
     m_fear.tick(sqrt(dangerDist), m_shootCooldown, m_health, p);
 
     Vector2 accel = {0, 0};
-    accel += Vector2Normalize(p.m_pho.m_pos - m_pho.m_pos)
+    accel += Vector2Normalize(nearestPlayerPos - m_pho.m_pos)
            * (1.0 - m_fear.percentage());
     accel += Vector2Normalize(m_pho.m_pos - dangerPos) * m_fear.percentage();
     accel += Vector2Normalize(
@@ -61,15 +61,19 @@ void Enemy::tick(Player &p) {
     if (!m_shootCooldown.done()) return;
 
     m_shootCooldown.reset();
-    Bullet::shoot(m_pho.m_pos, Vector2Normalize(p.m_pho.m_pos - m_pho.m_pos));
+    Vector2 shootDir = Vector2Normalize(nearestPlayerPos - m_pho.m_pos);
+    shootDir = Vector2Rotate(shootDir, (rand() % 100 - 50) / 400.f);
+    Bullet::shoot(m_pho.m_pos, shootDir);
 }
 
 
 void Enemy::draw() const {
-    DrawCircleV(m_pho.m_pos, BALL_RADIUS, RED);
+    DrawCircleV(PADDING_V + m_pho.m_pos, BALL_RADIUS, RED);
 }
 
 void Enemy::drawUI() const {
-    DrawRectangleLinesEx({WORLD_X - 310, 10, 300, 40}, 2, RED);
-    DrawRectangle(WORLD_X - 305, 15, m_health.percentage() * 290, 30, PINK);
+    DrawRectangleLinesEx(PADDED_REC(WORLD_X - 310, 10, 300, 40), 2, RED);
+    DrawRectangleRec(
+        PADDED_REC(WORLD_X - 305, 15, m_health.percentage() * 290, 30),
+        PINK);
 }

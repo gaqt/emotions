@@ -7,14 +7,22 @@
 #include <raygui.h>
 #include <raylib.h>
 #include <raymath.h>
+
 using namespace std;
 
 #include "sources.cpp"
 
 int main(void) {
+
     SetConfigFlags(FLAG_MSAA_4X_HINT);
-    InitWindow(WORLD_X, WORLD_Y, "MEOW");
+    InitWindow(WORLD_X+2*PADDING, WORLD_Y+2*PADDING, "MEOW");
     SetTargetFPS(60);
+
+    if (!IsWindowReady()) {
+        return -1;
+    }
+
+    GuiLoadStyle("assets/style_cherry.rgs");
 
     srand(time(NULL));
 
@@ -39,22 +47,22 @@ int main(void) {
         if (player.m_health.m_points <= 0 && enemy.m_health.m_points <= 0) {
             BeginDrawing();
             ClearBackground(BLACK);
-            DrawText("Draw!", 200, 200, 40, PINK);
-            restart = GuiButton({200, 300, 200, 50}, "RESTART");
+            DrawText("Draw!", PADDING+200, PADDING+200, 40, PINK);
+            restart = GuiButton(PADDED_REC(200, 300, 200, 50), "RESTART");
             EndDrawing();
             continue;
         } else if (player.m_health.m_points <= 0) {
             BeginDrawing();
             ClearBackground(BLACK);
-            DrawText("Entity Won!", 200, 200, 40, PINK);
-            restart = GuiButton({200, 300, 200, 50}, "RESTART");
+            DrawText("Entity Won!", PADDING+200, PADDING+200, 40, PINK);
+            restart = GuiButton(PADDED_REC(200, 300, 200, 50), "RESTART");
             EndDrawing();
             continue;
         } else if (enemy.m_health.m_points <= 0) {
             BeginDrawing();
             ClearBackground(BLACK);
-            DrawText("Player Won!", 200, 200, 40, PINK);
-            restart = GuiButton({200, 300, 200, 50}, "RESTART");
+            DrawText("Player Won!", PADDING+200, PADDING+200, 40, PINK);
+            restart = GuiButton(PADDED_REC(200, 300, 200, 50), "RESTART");
             EndDrawing();
             continue;
         }
@@ -73,6 +81,8 @@ int main(void) {
         BlastEffect::drawAll();
         enemy.drawUI();
         player.drawUI();
+
+        DrawRectangleLinesEx({PADDING-50, PADDING-50, WORLD_X+100, WORLD_Y+100}, 50, Color{20,20,20,255});
 
         DrawFPS(20, 20);
 

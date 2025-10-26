@@ -19,6 +19,7 @@ clean:
 build:
 	@echo "Running build script"
 	@g++ $(CXXFLAGS) $(INCLUDE) src/main.cpp -Ldist/lib $(LIBS) -o dist/out
+	@cp -r assets dist/assets
 	@echo "Done!"
 
 run:

@@ -11,7 +11,7 @@ struct Bullet {
     Vector2 m_vel;
     Timer m_age;
 
-    bool tick(Player &p, Enemy &e);
+    bool tick(usize bulletID, Player &p, Enemy &e);
     void draw() const;
 
     static void shoot(Vector2 source, Vector2 direction);

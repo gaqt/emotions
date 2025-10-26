@@ -13,10 +13,23 @@
 #define BULLET_SPEED 7
 #define BULLET_RADIUS 6
 #define BULLET_DAMAGE 15
-#define MAX_FEAR 600
+#define MAX_FEAR 900
 #define FIRING_COOLDOWN 60
 #define BLAST_MAXAGE 10
 #define BLAST_GROWTH 4
+#define PADDING 100
+#define PADDED_VEC2(x, y)        \
+    Vector2 {                    \
+        PADDING + x, PADDING + y \
+    }
+#define PADDED_REC(x, y, width, height)         \
+    Rectangle {                                 \
+        PADDING + x, PADDING + y, width, height \
+    }
+#define PADDING_V        \
+    Vector2 {            \
+        PADDING, PADDING \
+    }
 
 typedef std::int8_t i8;
 typedef std::uint8_t u8;

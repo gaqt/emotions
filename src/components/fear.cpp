@@ -18,10 +18,11 @@ void Fear::tick(f32 dangerDist,
                 Health health,
                 Player &player) {
 
-    m_points = 100.f * health.percentage();
+    m_points = 0;
+    m_points += 200.f * (1.f - health.percentage());
+    m_points += 200.f * player.m_health.percentage();
     m_points += max(.0f, 400.f - dangerDist);
     m_points += 50.f * (1.f - firingCooldown.percentage());
-    m_points += 25.f * player.m_health.percentage();
-    m_points += 25.f * player.m_shootCooldown.percentage();
+    m_points += 50.f * player.m_shootCooldown.percentage();
     m_points = Clamp(m_points, 0, MAX_FEAR);
 }

@@ -15,7 +15,7 @@ void Bullet::shoot(Vector2 source, Vector2 direction) {
     g_bullets.push_back(b);
 }
 
-bool Bullet::tick(Player &p, Enemy &e) {
+bool Bullet::tick(usize bulletID, Player &p, Enemy &e) {
     m_pos += m_vel;
     m_pos.x = Wrap(m_pos.x, 0, WORLD_X);
     m_pos.y = Wrap(m_pos.y, 0, WORLD_Y);
@@ -40,12 +40,28 @@ bool Bullet::tick(Player &p, Enemy &e) {
         return true;
     }
 
-    return false;
+    // NOTE: this makes tickAll O(N^2) for N = # of bullets
+    bool found = false;
+    for (usize i = bulletID + 1; i < g_bullets.size(); i++) {
+        if (CheckCollisionCircles(m_pos,
+                                  BULLET_RADIUS,
+                                  g_bullets[i].m_pos,
+                                  BULLET_RADIUS)) {
+
+            BlastEffect::create(m_pos);
+            swap(g_bullets[i], g_bullets.back());
+            g_bullets.pop_back();
+            i--;
+            found = true;
+        }
+    }
+
+    return found;
 }
 
 void Bullet::tickAll(Player &p, Enemy &e) {
-    for (size_t i = 0; i < g_bullets.size(); i++) {
-        if (g_bullets[i].tick(p, e)) {
+    for (usize i = 0; i < g_bullets.size(); i++) {
+        if (g_bullets[i].tick(i, p, e)) {
             swap(g_bullets[i], g_bullets.back());
             g_bullets.pop_back();
             i--;
@@ -54,7 +70,7 @@ void Bullet::tickAll(Player &p, Enemy &e) {
 }
 
 void Bullet::draw() const {
-    DrawCircleV(m_pos, BULLET_RADIUS, PURPLE);
+    DrawCircleV(PADDING_V + m_pos, BULLET_RADIUS, PURPLE);
 }
 
 void Bullet::drawAll() {

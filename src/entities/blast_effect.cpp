@@ -29,7 +29,7 @@ void BlastEffect::tickAll() {
 }
 
 void BlastEffect::draw() const {
-    DrawRing(m_pos,
+    DrawRing(PADDED_VEC2(m_pos.x, m_pos.y),
              m_age.m_ticks * BLAST_GROWTH,
              m_age.m_ticks * BLAST_GROWTH + 5,
              0,
