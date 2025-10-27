@@ -8,6 +8,7 @@
       "-Wall",
       "-Wextra",
       "-Wpedantic",
+      "-Wold-style-cast",
       "-Isrc",
       "-Ilib/raygui",
       "-o",

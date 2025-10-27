@@ -51,8 +51,8 @@ void Enemy::tick(Player &p) {
     accel += Vector2Normalize(nearestPlayerPos - m_pho.m_pos)
            * (1.0 - m_fear.percentage());
     accel += Vector2Normalize(m_pho.m_pos - dangerPos) * m_fear.percentage();
-    accel += Vector2Normalize(
-                 {(f32)(rand() % 100) - 50, (f32)(rand() % 100) - 50})
+    accel += Vector2Normalize({static_cast<f32>(rand() % 100) - 50,
+                               static_cast<f32>(rand() % 100) - 50})
            * .05f;
     accel = Vector2Normalize(accel) * ACCEL;
 

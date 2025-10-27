@@ -1,7 +1,7 @@
 LIBS := -lraylib -lraygui
 INCLUDE := -Isrc -Ilib/raygui
 CFLAGS := -std=c23 -O3 -Wall -Wextra -Wpedantic
-CXXFLAGS := -std=c++23 -O3 -Wall -Wextra -Wpedantic
+CXXFLAGS := -std=c++23 -O3 -Wall -Wextra -Wpedantic -Wold-style-cast
 
 setup:
 	@echo "Running setup script"

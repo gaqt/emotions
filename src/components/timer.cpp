@@ -7,7 +7,7 @@ Timer Timer::create(i32 ticks, i32 maxTicks) {
 }
 
 bool Timer::tick() {
-    m_ticks = min(m_ticks+1, m_maxTicks);
+    m_ticks = min(m_ticks + 1, m_maxTicks);
     return m_ticks >= m_maxTicks;
 }
 
@@ -16,7 +16,7 @@ bool Timer::done() const {
 }
 
 f32 Timer::percentage() const {
-    return (f32)m_ticks / (f32)m_maxTicks;
+    return static_cast<f32>(m_ticks) / static_cast<f32>(m_maxTicks);
 }
 
 void Timer::reset() {
